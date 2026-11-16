@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mestre das Bandeiras</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B1230;--sf:#16214D;--ln:#2E4290;--bl:#3D7BFF;--ye:#FFD23F;--mu:#B9C4F2;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:#fff;font-family:Nunito,system-ui,sans-serif;overflow:hidden}
+#app{height:100%;max-width:480px;margin:0 auto;position:relative}
+.scr{position:absolute;inset:0;padding:18px 20px 16px;display:none;flex-direction:column;background:radial-gradient(circle at 50% 0,#1B2E7A,#0B1230 62%);animation:in .35s ease}
+.scr.on{display:flex}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.i{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.btn{border:0;border-radius:40px;min-height:72px;font:900 21px Nunito,sans-serif;display:flex;align-items:center;gap:14px;padding:0 20px;cursor:pointer;transition:transform .1s,box-shadow .1s;width:100%;text-align:left}
+.btn:active{transform:translateY(4px)}
+.y{background:var(--ye);color:var(--bg);box-shadow:0 7px 0 #C99B00}
+.b{background:var(--bl);color:var(--bg);box-shadow:0 7px 0 #1E4DB8}
+.g{background:var(--sf);color:#fff;border:2px solid var(--ln);box-shadow:0 7px 0 #0A1030}
+.ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;background:#fff;color:#2B5FD9}
+.back{width:48px;height:48px;border-radius:50%;border:2px solid var(--ln);background:var(--sf);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+.top{display:flex;align-items:center;gap:10px}
+h1{margin:0;font-weight:900}
+.pill{height:46px;border-radius:23px;background:var(--sf);border:2px solid var(--ln);display:flex;align-items:center;gap:7px;padding:0 14px;font-weight:900;font-size:18px;white-space:nowrap}
+.pill small{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;font-weight:800}
+.pill.hot{background:var(--ye);border-color:var(--ye);color:var(--bg)}.pill.hot small{color:var(--bg)}
+.circ{border-radius:50%;overflow:hidden;border:4px solid #fff;flex:none}
+.sub{color:var(--mu);font-weight:700;text-align:center;margin:0}
+#home .hero{display:flex;justify-content:center;align-items:center;height:150px;margin-top:28px}
+#home h1{font-size:clamp(36px,11vw,50px);line-height:1;text-align:center;margin-top:18px;letter-spacing:-1px}
+#home h1 span{color:var(--ye)}
+.stack{margin-top:auto;display:flex;flex-direction:column;gap:16px;padding-bottom:10px}
+#ringw{position:relative;margin:14px auto 0;width:min(62vw,250px);aspect-ratio:1}
+#ring{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ye) calc(var(--p,100)*1%),var(--ln) 0)}
+#fc{width:90%;height:90%;border-radius:50%;overflow:hidden;border:6px solid var(--bg)}
+#msg{min-height:50px;text-align:center;font-weight:900;font-size:18px;color:var(--ye);margin:10px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#msg em{font-style:normal;color:var(--mu);font-size:15px;font-weight:700}
+#opts{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:6px}
+.opt{height:58px;border-radius:29px;background:var(--sf);border:2px solid var(--ln);color:#fff;font:800 20px Nunito,sans-serif;cursor:pointer;transition:background .15s,opacity .2s}
+.opt.ok{background:var(--ye);border-color:var(--ye);color:var(--bg)}
+.opt.no{opacity:.35;border-color:#FF6B7A}
+#hint{display:none;align-self:center;height:44px;border-radius:22px;border:2px solid var(--ye);background:transparent;color:var(--ye);font:900 16px Nunito,sans-serif;padding:0 20px;cursor:pointer;margin-top:8px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.card{border-radius:28px;background:var(--sf);border:3px solid var(--ln);color:#fff;padding:11px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit}
+.card:active{border-color:var(--ye);transform:scale(.97)}
+.card .pv{width:100%;aspect-ratio:3/2;border-radius:15px;overflow:hidden;position:relative}
+.card .pv i{position:absolute;inset:0;background-image:linear-gradient(to right,rgba(11,18,48,.8) 1px,transparent 1px),linear-gradient(to bottom,rgba(11,18,48,.8) 1px,transparent 1px)}
+.card b{font-size:28px;line-height:1}.card span{font-size:14px;font-weight:800;color:var(--ye)}
+#boardw{position:relative;width:min(100%,440px);aspect-ratio:3/2;margin:22px auto 0;border-radius:14px;overflow:hidden;background:var(--ln)}
+#board{position:absolute;inset:0;display:grid}
+.pc{overflow:hidden;cursor:pointer;filter:brightness(.78);transition:filter .2s}
+.pc.ok{filter:none}.pc.sel{box-shadow:inset 0 0 0 3px var(--ye);filter:none}
+.pc svg{width:100%;height:100%;display:block;pointer-events:none}
+#pvw{position:absolute;inset:0;display:none;pointer-events:none}
+.tabs{display:flex;gap:10px;margin-top:18px}
+.tab{flex:1;height:48px;border-radius:24px;border:2px solid var(--ln);background:var(--sf);color:#fff;font:900 16px Nunito,sans-serif;cursor:pointer}
+.tab.on{background:var(--ye);border-color:var(--ye);color:var(--bg)}
+#list{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;overflow:auto}
+#list li{display:flex;align-items:center;gap:12px;background:var(--sf);border-radius:26px;padding:8px 18px 8px 8px;font-weight:800;font-size:18px}
+#list li b{width:40px;height:40px;border-radius:50%;background:var(--ln);display:grid;place-items:center;flex:none}
+#list li:nth-child(1) b{background:var(--ye);color:var(--bg)}
+#list li span{margin-left:auto;color:var(--ye);font-weight:900}#list li small{color:var(--mu);font-weight:700}
+#res{align-items:center;justify-content:center;text-align:center;gap:10px}
+#res .big{font-size:76px;font-weight:900;color:var(--ye);line-height:1}
+#nm{width:100%;max-width:300px;height:54px;border-radius:27px;border:2px solid var(--ln);background:var(--sf);color:#fff;font:800 20px Nunito,sans-serif;text-align:center;outline:none}
+#nm:focus{border-color:var(--ye)}
+#res .btn{max-width:340px;justify-content:center}
+.scr{overflow-y:auto}#home .hero{height:140px;margin-top:4px}.stack{gap:12px}.tab{font-size:14px}.w{background:#fff;color:var(--bg);box-shadow:0 7px 0 #8FA0D8}#mw{flex:1;min-height:0;position:relative;margin-top:8px}#mw svg{position:absolute;inset:0;width:100%;height:100%}.cty{fill:#22307A;stroke:#0B1230;stroke-width:.8;stroke-linejoin:round;cursor:pointer;transition:fill .3s}.cty.oth{fill:#1A2560;cursor:default}.cty.done{fill:var(--bl)}.cty.done.alt{fill:var(--ye)}.cty.bad{fill:#FF6B7A}.cty.hint{animation:bl .5s infinite alternate}@keyframes bl{to{fill:var(--ye)}}#home .hero{height:120px;margin-top:0}#home .btn{min-height:62px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}#dw{flex:1;min-height:0;position:relative;margin-top:8px;background:#0F1840;border-radius:22px;overflow:hidden;touch-action:none}#dw svg{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.gd{fill:#16214D;stroke:#2E4290;stroke-width:.7;stroke-linejoin:round}.stroke{fill:none;stroke:#FFD23F;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.real{fill:rgba(61,123,255,.55);stroke:#fff;stroke-width:1}#dw{flex:1;aspect-ratio:auto;margin:8px 0 0;min-height:0;background:#0B1030;border:2px dashed #2E4290}#dw .stroke{stroke-width:4}#dmap{flex:none;height:92px;margin-top:8px;border-radius:16px;background:#0F1840;border:2px solid var(--ln);padding:2px}.mine{fill:var(--ye);fill-opacity:.85;stroke:#fff;stroke-width:.5;stroke-linejoin:round}#rmap{background:#0F1840;border:2px solid var(--ln);border-radius:16px;width:100%;max-width:340px;aspect-ratio:360/140;padding:2px}#dmap{display:none}#dw{position:absolute;inset:0;margin:0;border:0;border-radius:0;z-index:1}#draw>*:not(#dw){position:relative;z-index:2}#draw .top,#draw #dm{pointer-events:none}#draw .back{pointer-events:auto}#draw #dm{margin-top:auto!important}.stroke{vector-effect:non-scaling-stroke}.stroke.fin{stroke-width:1.5;stroke:#fff;fill:var(--ye);fill-opacity:.85;transition:fill-opacity .4s}#dw{flex:none;aspect-ratio:360/140;width:100%;margin:auto 0}.stroke{stroke-width:1.6}.gl{stroke:#22307A;stroke-width:.3}.gl.eq{stroke:#3D5AC9;stroke-width:.6}
+#home .btn{min-height:60px;font-size:19px}#home .stack{gap:10px}
+.fl{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}.fl li{display:flex;align-items:center;gap:10px;background:var(--sf);border-radius:24px;padding:8px 8px 8px 16px;font-weight:800}.fl li small{color:var(--mu);margin-left:auto;font-weight:700}.fl li .sm{margin-left:auto}
+.sm{height:40px;border-radius:20px;border:0;padding:0 16px;font:900 15px Nunito,sans-serif;background:var(--ye);color:var(--bg);cursor:pointer}.sm.g2{background:var(--ln);color:#fff}
+.dt{width:11px;height:11px;border-radius:50%;background:#59627f;flex:none}.dt.on{background:#3DDC84}
+.hd{font-size:14px;color:var(--mu);margin:16px 0 0;text-transform:uppercase;letter-spacing:.6px;font-weight:900}
+.box{background:var(--sf);border:2px solid var(--ln);border-radius:22px;padding:14px;text-align:center;font-weight:800;margin-top:14px;line-height:1.35}.box b{color:var(--ye);font-size:26px;letter-spacing:3px}
+.row{display:flex;gap:10px;margin-top:12px;align-items:center}
+.in{flex:1;min-width:0;height:50px;border-radius:25px;border:2px solid var(--ln);background:var(--sf);color:#fff;font:800 18px Nunito,sans-serif;text-align:center;outline:none}.in:focus{border-color:var(--ye)}
+@media (prefers-reduced-motion:reduce){.scr{animation:none}}
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0" aria-hidden="true"><defs><g id="pf"></g></defs>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+<symbol id="i-pz" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v2h4v4h-2a2 2 0 1 0 0 4h2v4h-4v-2a2 2 0 1 0-4 0v2H6v-4h2a2 2 0 1 0 0-4H6V6h4z"/></symbol>
+<symbol id="i-tr" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5v2a3 3 0 0 0 3 3M16 6h3v2a3 3 0 0 1-3 3M12 13v4M8 20h8"/></symbol>
+<symbol id="i-bk" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/></symbol><symbol id="i-gl" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+<symbol id="i-us" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-4 3-6 6.5-6s6.500 2 6.500 6M16 4.500a3.500 3.500 0 0 1 0 7M18 14c2.500.7 3.500 2.700 3.500 6"/></symbol></svg>
+<div id="app">
+
+<section class="scr on" id="home">
+ <div class="hero" id="hero"></div>
+ <h1>Mestre das<br><span>Bandeiras</span></h1>
+ <p class="sub" style="margin-top:12px">Descubra, monte e vire o mestre do mundo.</p>
+ <div class="stack">
+  <button class="btn y" data-go="quiz"><span class="ic" style="background:var(--bg);color:var(--ye)"><svg class="i"><use href="#i-flag"/></svg></span>Quiz de Bandeiras</button>
+  <button class="btn b" data-go="psel"><span class="ic"><svg class="i"><use href="#i-pz"/></svg></span>Quebra-Cabeça</button>
+  <button class='btn w' data-go='mapa'><span class='ic' style='background:var(--bg);color:#fff'><svg class='i'><use href='#i-map'/></svg></span>Mapa por País</button>
+  <button class='btn y' data-go='draw'><span class='ic' style='background:var(--bg);color:var(--ye)'><svg class='i'><use href='#i-pen'/></svg></span>Desenhar País</button>
+  <button class="btn b" data-go="onl"><span class="ic"><svg class="i"><use href="#i-gl"/></svg></span>Modo Online</button>
+  <button class="btn w" data-go="fr"><span class="ic" style="background:var(--bg);color:#fff"><svg class="i"><use href="#i-us"/></svg></span>Amigos</button>
+  <button class="btn g" data-go="rank"><span class="ic" style="background:var(--ln);color:var(--ye)"><svg class="i"><use href="#i-tr"/></svg></span>Ranking</button>
+ </div>
+</section>
+
+<section class="scr" id="quiz">
+ <div class="top"><button class="back" data-go="home" aria-label="Início"><svg class="i"><use href="#i-bk"/></svg></button>
+  <div class="pill" style="flex:1"><small>Pontos</small><span id="sc" style="color:var(--ye)">0</span></div>
+  <div class="pill" id="cb"><small>Combo</small><span id="cv">x0</span></div>
+  <div class="pill"><small>Tempo</small><span id="tm">20</span></div></div>
+ <p class="sub" id="rd" style="margin-top:12px"></p>
+ <p class="sub" id="vs" style="display:none;margin-top:4px;color:var(--ye);font-weight:900"></p>
+ <div id="ringw"><div id="ring"><div id="fc"></div></div></div>
+ <div id="msg"></div>
+ <button id="hint">Usar dica (pontos pela metade)</button>
+ <div id="opts"></div>
+</section>
+
+<section class="scr" id="psel">
+ <div class="top"><button class="back" data-go="home" aria-label="Início"><svg class="i"><use href="#i-bk"/></svg></button><h1 style="font-size:27px">Quebra-Cabeça</h1></div>
+ <p class="sub" style="margin-top:22px;text-align:left;font-size:18px">Escolha quantas peças a bandeira terá.</p>
+ <div class="cards" id="cards"></div>
+</section>
+
+<section class="scr" id="pplay">
+ <div class="top"><button class="back" data-go="psel" aria-label="Voltar"><svg class="i"><use href="#i-bk"/></svg></button>
+  <div class="pill" style="flex:1"><small>Tempo</small><span id="pt">0:00</span></div>
+  <div class="pill"><small>Jogadas</small><span id="pm">0</span></div></div>
+ <p class="sub" style="margin-top:16px">Toque em duas peças para trocá-las de lugar.</p>
+ <div id="boardw"><div id="board"></div><div id="pvw"></div></div>
+ <div class="stack" style="flex-direction:row;gap:12px">
+  <button class="btn g" id="peek" style="justify-content:center;font-size:18px;min-height:64px">Ver modelo</button>
+  <button class="btn y" id="shuf" style="justify-content:center;font-size:18px;min-height:64px">Nova bandeira</button></div>
+</section>
+
+<section class='scr' id='mapa'>
+ <div class='top'><button class='back' data-go='home' aria-label='Início'><svg class='i'><use href='#i-bk'/></svg></button>
+  <div class='pill' style='flex:1'><small>Pontos</small><span id='ms' style='color:var(--ye)'>0</span></div>
+  <div class='pill' id='mc2'><small>Combo</small><span id='mc'>x0</span></div>
+  <div class='pill'><small>Países</small><span id='mp'>0/10</span></div></div>
+ <div class='top' style='margin-top:12px;background:var(--sf);border-radius:30px;padding:8px 18px 8px 8px;border:2px solid var(--ln)'><div class='circ' style='width:54px;height:54px;border-width:3px' id='mf'></div><div style='font-size:19px;font-weight:800;flex:1'>Onde fica <b id='mn' style='color:var(--ye)'></b>?</div><span id='mt' style='font-weight:900;color:var(--mu)'>0s</span></div>
+ <div id='mw'></div>
+ <p class='sub' id='mm' style='min-height:44px;margin-top:6px;color:var(--ye);font-weight:900'></p>
+</section>
+
+<section class='scr' id='draw'>
+ <div class='top'><button class='back' data-go='home' aria-label='Início'><svg class='i'><use href='#i-bk'/></svg></button>
+  <div class='pill' style='flex:1'><small>Pontos</small><span id='ds' style='color:var(--ye)'>0</span></div>
+  <div class='pill'><small>Rodada</small><span id='dr'>1/5</span></div></div>
+ <div class='top' style='margin-top:12px;background:var(--sf);border-radius:30px;padding:8px 18px 8px 8px;border:2px solid var(--ln)'><div class='circ' style='width:54px;height:54px;border-width:3px' id='df'></div><div style='font-size:18px;font-weight:800;flex:1'>Contorne o país: <b id='dn' style='color:var(--ye)'></b></div></div>
+ <div id='dw'></div>
+ <div id='dmap'></div>
+ <p class='sub' id='dm' style='min-height:44px;margin-top:6px;color:var(--ye);font-weight:900'></p>
+ <div style='display:flex;gap:10px;padding-bottom:6px'>
+  <button class='btn g' id='dcl' style='justify-content:center;font-size:17px;min-height:56px;padding:0 10px'>Limpar</button>
+  <button class='btn g' id='dhi' style='justify-content:center;font-size:17px;min-height:56px;padding:0 10px'>Dica</button>
+  <button class='btn y' id='dgo' style='justify-content:center;font-size:17px;min-height:56px;padding:0 10px;flex:1.6'>Pronto</button></div>
+</section>
+
+<section class="scr" id="onl">
+ <div class="top"><button class="back" data-go="home" aria-label="Início"><svg class="i"><use href="#i-bk"/></svg></button><h1 style="font-size:27px">Modo Online</h1></div>
+ <p class="sub" style="margin-top:14px;text-align:left">Duelo de Quiz: você e um amigo recebem as mesmas 10 bandeiras. Vence quem fizer mais pontos.</p>
+ <div class="box" id="ostat"></div>
+ <button class="btn y" id="ohost" style="margin-top:14px;min-height:60px;justify-content:center">Criar duelo</button>
+ <div class="row"><input class="in" id="ocode" maxlength="6" placeholder="CÓDIGO DO AMIGO" style="text-transform:uppercase"><button class="sm" id="ojoin" style="height:50px">Entrar</button></div>
+ <div class="hd">Seus amigos</div><ul class="fl" id="olist"></ul>
+</section>
+
+<section class="scr" id="fr">
+ <div class="top"><button class="back" data-go="home" aria-label="Início"><svg class="i"><use href="#i-bk"/></svg></button><h1 style="font-size:27px">Amigos</h1></div>
+ <div class="box" id="fme">Conectando…</div>
+ <div class="row"><input class="in" id="fnm" maxlength="12" placeholder="Seu nome"></div>
+ <div class="row"><input class="in" id="fcode" maxlength="6" placeholder="CÓDIGO DO AMIGO" style="text-transform:uppercase"><button class="sm" id="fadd" style="height:50px">Adicionar</button></div>
+ <p class="sub" id="fmsg" style="min-height:22px;margin-top:8px;color:var(--ye);font-weight:900"></p>
+ <div id="flist"></div>
+</section>
+
+<section class="scr" id="rank">
+ <div class="top"><button class="back" data-go="home" aria-label="Início"><svg class="i"><use href="#i-bk"/></svg></button><h1 style="font-size:27px">Ranking</h1></div>
+ <div class="tabs"><button class="tab on" data-t="q">Quiz</button><button class="tab" data-t="p">Quebra-Cabeça</button><button class="tab" data-t="m">Mapa</button><button class="tab" data-t="d">Desenho</button></div>
+ <ol id="list"></ol>
+</section>
+
+<section class="scr" id="res">
+ <h1 id="rt" style="font-size:34px"></h1>
+ <div class="big" id="rs">0</div>
+ <p class="sub" id="rl" style="font-size:17px"></p>
+ <div id='rmap' style='display:none'></div>
+ <input id="nm" maxlength="12" placeholder="Seu nome" aria-label="Seu nome">
+ <button class="btn y" id="rsave" style="margin-top:14px">Salvar no ranking</button>
+ <button class="btn g" id="ragain">Jogar de novo</button>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id),rnd=n=>Math.random()*n|0;
+const st=(d,c,x='')=>{const w=c.map(s=>+(s.split(':')[1]||1)),t=w.reduce((a,b)=>a+b);let o=0;return c.map((s,i)=>{const f=s.split(':')[0],l=w[i]/t*(d?60:90);const r=d?`<rect y='${o}' width='90' height='${l+.3}' fill='${f}'/>`:`<rect x='${o}' width='${l+.3}' height='60' fill='${f}'/>`;o+=l;return r}).join('')+x};
+const cr=(f,a,t)=>`<rect x='${a}' width='${t}' height='60' fill='${f}'/><rect y='${(60-t)/2}' width='90' height='${t}' fill='${f}'/>`;
+const dot=(f,x,r)=>`<circle cx='${x}' cy='30' r='${r}' fill='${f}'/>`;
+const AS='América do Sul',EU='Europa';
+const F=[
+['Brasil','Brasília',AS,`<rect width='90' height='60' fill='#1FA84F'/><path d='M45 6 84 30 45 54 6 30z' fill='#FFD23F'/>${dot('#2B5FD9',45,13)}`],
+['Japão','Tóquio','Ásia',`<rect width='90' height='60' fill='#fff'/>${dot('#E5384B',45,18)}`],
+['Suécia','Estocolmo',EU,st(0,['#2B6CC4'],cr('#FFD23F',27,12))],
+['França','Paris',EU,st(0,['#2B4FC4','#fff','#E5384B'])],
+['Itália','Roma',EU,st(0,['#1FA84F','#fff','#E5384B'])],
+['Alemanha','Berlim',EU,st(1,['#111','#E5384B','#FFCE00'])],
+['Irlanda','Dublin',EU,st(0,['#1FA84F','#fff','#FF8A2B'])],
+['Holanda','Amsterdã',EU,st(1,['#D5303E','#fff','#2B4FC4'])],
+['Rússia','Moscou',EU,st(1,['#fff','#2B4FC4','#E5384B'])],
+['Espanha','Madri',EU,st(1,['#C8202F','#FFC400:2','#C8202F'])],
+['Colômbia','Bogotá',AS,st(1,['#FFD23F:2','#2B4FC4','#E5384B'])],
+['Argentina','Buenos Aires',AS,st(1,['#74ACDF','#fff','#74ACDF'],dot('#F6B40E',45,6))],
+['Polônia','Varsóvia',EU,st(1,['#fff','#DC143C'])],
+['Ucrânia','Kiev',EU,st(1,['#2B6CC4','#FFD23F'])],
+['Áustria','Viena',EU,st(1,['#E5384B','#fff','#E5384B'])],
+['Hungria','Budapeste',EU,st(1,['#CD2A3E','#fff','#436F4D'])],
+['Bulgária','Sófia',EU,st(1,['#fff','#00966E','#D62612'])],
+['Peru','Lima',AS,st(0,['#D91023','#fff','#D91023'])],
+['Nigéria','Abuja','África',st(0,['#008751','#fff','#008751'])],
+['Bélgica','Bruxelas',EU,st(0,['#111','#FDDA24','#EF3340'])],
+['Suíça','Berna',EU,`<rect width='90' height='60' fill='#D52B1E'/><rect x='39' y='12' width='12' height='36' fill='#fff'/><rect x='27' y='24' width='36' height='12' fill='#fff'/>`],
+['Dinamarca','Copenhague',EU,st(0,['#C8102E'],cr('#fff',24,8))],
+['Finlândia','Helsinque',EU,st(0,['#fff'],cr('#003580',24,10))],
+['Noruega','Oslo',EU,st(0,['#EF2B2D'],cr('#fff',22,14)+cr('#002868',25,8))],
+['Bangladesh','Daca','Ásia',st(0,['#006A4E'],dot('#F42A41',42,17))],
+['México','Cidade do México','América do Norte',st(0,['#006847','#fff','#CE1126'],dot('#8C6A2F',45,7))],
+['Bolívia','Sucre',AS,st(1,['#D52B1E','#F9E300','#007934'])],
+['Estônia','Tallinn',EU,st(1,['#0072CE','#111','#fff'])],
+['Portugal','Lisboa',EU,st(0,['#046A38:2','#DA291C:3'],dot('#FFD23F',36,9))],
+['Venezuela','Caracas',AS,st(1,['#FFCC00','#00247D','#CF142B'],`<circle cx='36' cy='30' r='1.8' fill='#fff'/><circle cx='45' cy='28' r='1.8' fill='#fff'/><circle cx='54' cy='30' r='1.8' fill='#fff'/>`)],
+['Chile','Santiago',AS,st(1,['#fff','#D52B1E'],`<rect width='30' height='30' fill='#0039A6'/><circle cx='15' cy='15' r='5' fill='#fff'/>`)],
+['Paraguai','Assunção',AS,st(1,['#D52B1E','#fff','#0038A8'],dot('#1FA84F',45,5))],
+['Uruguai','Montevidéu',AS,st(1,['#fff','#0038A8','#fff','#0038A8','#fff','#0038A8','#fff','#0038A8','#fff'],`<rect width='30' height='30' fill='#fff'/><circle cx='15' cy='15' r='6' fill='#FCD116'/>`)],
+['Equador','Quito',AS,st(1,['#FFD100:2','#0033A0','#E5384B'],`<circle cx='45' cy='24' r='5' fill='#8C6A2F'/>`)],
+['Austrália','Camberra','Oceania',`<rect width='90' height='60' fill='#00247D'/><rect width='40' height='26' fill='#fff'/><rect x='17' width='6' height='26' fill='#CF142B'/><rect y='10' width='40' height='6' fill='#CF142B'/><circle cx='22' cy='45' r='5' fill='#fff'/><circle cx='65' cy='15' r='3' fill='#fff'/><circle cx='72' cy='32' r='3' fill='#fff'/><circle cx='60' cy='46' r='3' fill='#fff'/>`],
+['Canadá','Ottawa','América do Norte',st(0,['#D52B1E','#fff:2','#D52B1E'],`<path d='M45 14 48 24 56 22 51 30 56 34 47 36 47 46 43 46 43 36 34 34 39 30 34 22 42 24z' fill='#D52B1E'/>`)],
+['China','Pequim','Ásia',`<rect width='90' height='60' fill='#DE2910'/><circle cx='17' cy='15' r='7' fill='#FFDE00'/><circle cx='32' cy='8' r='2' fill='#FFDE00'/><circle cx='38' cy='15' r='2' fill='#FFDE00'/><circle cx='38' cy='23' r='2' fill='#FFDE00'/><circle cx='32' cy='30' r='2' fill='#FFDE00'/>`],
+['Egito','Cairo','África',st(1,['#CE1126','#fff','#111'],`<circle cx='45' cy='30' r='4' fill='#C09300'/>`)],
+['Estados Unidos','Washington','América do Norte',st(1,['#B22234','#fff','#B22234','#fff','#B22234','#fff','#B22234','#fff','#B22234','#fff','#B22234','#fff','#B22234'],`<rect width='38' height='32' fill='#3C3B6E'/>`)],
+['Índia','Nova Délhi','Ásia',st(1,['#FF9933','#fff','#138808'],`<circle cx='45' cy='30' r='6' fill='none' stroke='#000080' stroke-width='1.5'/>`)]];
+const ge=i=>`<svg viewBox='0 0 90 60' preserveAspectRatio='xMidYMid slice' width='100%' height='100%'>${F[i][3]}</svg>`;
+const sh=a=>{for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function burst(el,n=26){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const r=el.getBoundingClientRect(),cs=['#FFD23F','#3D7BFF','#fff'];
+ for(let k=0;k<n;k++){const d=document.createElement('i'),s=6+rnd(9),a=Math.random()*6.28,m=70+rnd(130);
+  d.style.cssText=`position:fixed;z-index:9;pointer-events:none;border-radius:50%;width:${s}px;height:${s}px;background:${cs[k%3]};left:${r.left+r.width/2}px;top:${r.top+r.height/2}px`;
+  document.body.appendChild(d);d.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*m}px,${Math.sin(a)*m+40}px) scale(.3)`,opacity:0}],{duration:900,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>d.remove()}}
+const pop=el=>el.animate([{transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:500,easing:'ease-out'});
+function floater(el,t){const d=document.createElement('div');d.textContent=t;d.style.cssText='position:absolute;left:50%;top:40%;margin-left:-40px;width:80px;text-align:center;font:900 34px Nunito;color:#fff;text-shadow:0 2px 12px #0B1230;z-index:5;pointer-events:none';el.appendChild(d);d.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-70px)',opacity:0}],{duration:1000}).onfinish=()=>d.remove()}
+
+let mem={q:[],p:[],m:[]};try{mem=JSON.parse(localStorage.getItem('mb1'))||mem}catch(e){}mem.m=mem.m||[];mem.d=mem.d||[];
+function save(m,name,s,tag){mem[m].push({n:name,s,t:tag});mem[m].sort((a,b)=>b.s-a.s);mem[m]=mem[m].slice(0,10);try{localStorage.setItem('mb1',JSON.stringify(mem))}catch(e){}}
+let tab='q';
+function drawRank(){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t==tab));const l=mem[tab];
+ $('list').innerHTML=l.length?l.map((r,i)=>`<li><b>${i+1}</b>${esc(r.n)} <small>${r.t||''}</small><span>${r.s}</span></li>`).join(''):`<li style='justify-content:center;padding:22px;color:var(--mu)'>Ainda sem pontuações. Jogue uma partida!</li>`}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.t;drawRank()});
+
+let ONL=null,timers=[];const clr=()=>{timers.forEach(clearInterval);timers=[]};
+function go(id){clr();if(ONL&&id!='quiz'&&id!='onl')oLeave();if(id=='onl'||id=='fr'){oInit();rAll()}document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==id));
+ if(id=='quiz')qStart();if(id=='psel')drawCards();if(id=='rank')drawRank();if(id=='mapa')mStart();if(id=='draw')dStart()}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$('hero').innerHTML=[1,0,2].map((f,k)=>{const s=k==1?140:96;return `<div class='circ' style='width:${s}px;height:${s}px;margin:${k==1?'0 -16px':'40px 0 0'};z-index:${k==1?2:1};${k==1?'box-shadow:0 0 0 8px rgba(255,210,63,.25)':''}'>${ge(f)}</div>`}).join('');
+
+/* QUIZ */
+const TL=20;let Q;
+function qStart(){Q={score:0,combo:0,best:0,hits:0,round:0,order:ONL&&ONL.state=='play'?ONL.order.slice():sh([...F.keys()]),total:10};$('vs').style.display=ONL&&ONL.state=='play'?'block':'none';$('sc').textContent=0;qNext()}
+function qNext(){clr();if(Q.round>=Q.total)return qEnd();
+ Q.cur=Q.order[Q.round++];Q.wrong=0;Q.hint=false;Q.lock=false;Q.t0=performance.now();
+ const others=sh([...F.keys()].filter(i=>i!=Q.cur)).slice(0,3),o=sh([Q.cur,...others]);
+ $('rd').textContent=`Rodada ${Q.round} de ${Q.total} · De qual país é esta bandeira?`;
+ $('fc').innerHTML=ge(Q.cur);$('msg').innerHTML='';$('hint').style.display='none';
+ $('opts').innerHTML=o.map(i=>`<button class='opt' data-i='${i}'>${F[i][0]}</button>`).join('');
+ document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>qAns(b));
+ hud();timers.push(setInterval(tick,100))}
+function hud(){if(ONL&&ONL.state=='play')oPush();$('sc').textContent=Q.score;$('cv').textContent='x'+Q.combo;$('cb').classList.toggle('hot',Q.combo>=3)}
+function tick(){const left=Math.max(0,TL-(performance.now()-Q.t0)/1000);$('ring').style.setProperty('--p',left/TL*100);$('tm').textContent=Math.ceil(left);
+ if(left<=0&&!Q.lock){Q.lock=true;Q.combo=0;hud();clr();$('msg').innerHTML=`Tempo esgotado!<em>Era ${F[Q.cur][0]}</em>`;mark();timers.push(setTimeout(qNext,1600))}}
+function mark(){document.querySelectorAll('.opt').forEach(b=>{if(+b.dataset.i==Q.cur)b.classList.add('ok')})}
+function qAns(b){if(Q.lock||b.classList.contains('no'))return;
+ if(+b.dataset.i==Q.cur){Q.lock=true;clr();const el=(performance.now()-Q.t0)/1000;
+  const base=el<=4?20:el<=9?10:5;Q.combo++;Q.hits++;Q.best=Math.max(Q.best,Q.combo);
+  const bonus=Q.combo>=3?Math.min(Q.combo,8)*2:0;let pts=base+bonus;if(Q.hint)pts=Math.max(1,Math.round(pts/2));
+  Q.score+=pts;hud();mark();pop($('ring'));burst($('ringw'),base==20?36:22);floater($('ringw'),'+'+pts);
+  $('msg').innerHTML=(base==20?'Velocidade total!':base==10?'Mandou bem!':'Acertou!')+(bonus?`<em>Combo! +${bonus} de bônus</em>`:'');
+  timers.push(setTimeout(qNext,1300))}
+ else{Q.wrong++;Q.combo=0;hud();b.classList.add('no');b.animate([{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'none'}],{duration:250,iterations:2});
+  if(Q.wrong>=2&&!Q.hint)$('hint').style.display='block'}}
+$('hint').onclick=()=>{if(Q.hint||Q.lock)return;Q.hint=true;$('hint').style.display='none';
+ $('msg').innerHTML=`Dica: capital ${F[Q.cur][1]}<em>Continente: ${F[Q.cur][2]}</em>`;
+ sh([...document.querySelectorAll('.opt:not(.no)')].filter(b=>+b.dataset.i!=Q.cur)).slice(0,2).forEach(b=>b.classList.add('no'))};
+function qEnd(){if(ONL&&ONL.state=='play')return oEnd();showRes('q','Fim de jogo!',Q.score,`${Q.hits} de ${Q.total} acertos · melhor combo x${Q.best}`,'',()=>go('quiz'))}
+
+/* PUZZLE */
+const DIF={2:['Fácil',50],4:['Médio',100],8:['Difícil',300],14:['Desafio máximo',800]};let P;
+function drawCards(){const f=rnd(F.length);$('cards').innerHTML=Object.keys(DIF).map(n=>{const s=100/n;return `<button class='card' data-n='${n}'><div class='pv'>${ge(f)}<i style='background-size:${s}% ${s}%'></i></div><b>${n}×${n}</b><span>${DIF[n][0]}</span></button>`}).join('');
+ document.querySelectorAll('.card').forEach(c=>c.onclick=()=>pStart(+c.dataset.n))}
+const pc=p=>{const n=P.n,w=90/n,h=60/n;return `<svg viewBox='${p%n*w} ${(p/n|0)*h} ${w} ${h}' preserveAspectRatio='none'><use href='#pf'/></svg>`};
+function pStart(n){go('pplay');const f=rnd(F.length);P={n,f,perm:[...Array(n*n).keys()],sel:null,moves:0,t0:Date.now(),done:false};
+ $('pf').innerHTML=F[f][3];$('pvw').innerHTML=ge(f);$('pvw').style.display='none';$('peek').textContent='Ver modelo';
+ do sh(P.perm);while(P.perm.every((v,i)=>v==i));
+ const b=$('board');b.style.gridTemplate=`repeat(${n},1fr)/repeat(${n},1fr)`;b.style.gap=n<5?'3px':n<9?'1px':'0';
+ b.innerHTML=P.perm.map((p,i)=>`<div class='pc${p==i?' ok':''}' data-i='${i}'>${pc(p)}</div>`).join('');
+ $('pm').textContent=0;$('pt').textContent='0:00';
+ timers.push(setInterval(()=>{const s=(Date.now()-P.t0)/1000|0;$('pt').textContent=(s/60|0)+':'+String(s%60).padStart(2,'0')},500))}
+$('board').onclick=e=>{const c=e.target.closest('.pc');if(!c||P.done)return;const i=+c.dataset.i,cells=$('board').children;
+ if(P.sel===null){P.sel=i;c.classList.add('sel');return}
+ const a=P.sel;P.sel=null;cells[a].classList.remove('sel');if(a==i)return;
+ [P.perm[a],P.perm[i]]=[P.perm[i],P.perm[a]];P.moves++;$('pm').textContent=P.moves;
+ [a,i].forEach(k=>{cells[k].innerHTML=pc(P.perm[k]);cells[k].classList.toggle('ok',P.perm[k]==k);cells[k].animate([{transform:'scale(.85)'},{transform:'none'}],{duration:200})});
+ if(P.perm.every((v,k)=>v==k))pWin()};
+function pWin(){P.done=true;clr();document.querySelectorAll('.pc').forEach(c=>c.classList.add('ok'));$('board').style.gap='0';
+ const sec=(Date.now()-P.t0)/1000|0,base=DIF[P.n][1],pts=Math.max(Math.round(base*.2),Math.round(base*(1-sec/(P.n*P.n*5+60))));
+ pop($('boardw'));burst($('boardw'),44);
+ setTimeout(()=>showRes('p','Bandeira montada!',pts,`${F[P.f][0]} · ${P.n}×${P.n} em ${sec}s com ${P.moves} jogadas`,P.n+'×'+P.n,()=>pStart(P.n)),1500)}
+$('peek').onclick=()=>{const v=$('pvw'),on=v.style.display=='none';v.style.display=on?'block':'none';$('peek').textContent=on?'Esconder modelo':'Ver modelo'};
+$('shuf').onclick=()=>pStart(P.n);
+
+/* MAPA */
+const MD={'Brasil':'-67.5,2 -64.5,2.3 -64,4 -60.7,5.2 -59.5,3.5 -57,2 -54,2.2 -52,4.5 -51,4 -50,1.5 -49.5,0 -47,-0.7 -44,-2.3 -40,-2.8 -37,-4.8 -35,-5.5 -34.8,-8 -36,-10.5 -37.5,-12 -39,-14 -39,-18 -40.5,-21 -42,-23 -45,-23.8 -48.5,-26 -48.7,-28.5 -50.5,-31 -53.3,-33.7 -53.4,-32.5 -55.5,-30.5 -57.6,-30.2 -56,-28.3 -54.5,-27.3 -54.5,-25.6 -54.3,-24 -55.5,-23.5 -57.8,-22.2 -58,-20 -57.8,-17.5 -60,-16.3 -60,-14.8 -62.5,-12.8 -65.3,-9.8 -68.5,-11 -70.5,-11 -72.5,-9.5 -73.8,-7.3 -72.5,-5 -70,-4.2 -70,-1.5 -69.5,1.2',
+'Colômbia':'-77.3,8.7 -76,9.3 -75,11 -73,11.8 -72,11 -72.5,9 -71.8,7 -70.5,7 -67.8,6.2 -67.5,2 -69.5,1.2 -70,-1.5 -70,-4.2 -72.5,-2.5 -75,-0.2 -77,0.5 -78.8,1.5 -78,2.8 -77.5,4.5 -77.4,6.5',
+'Venezuela':'-72,11 -71.5,12 -70,12.2 -68,10.6 -64,10.6 -62,10.7 -61.5,8.5 -60,8.5 -60.7,5.2 -64,4 -64.5,2.3 -67.5,2 -67.8,6.2 -70.5,7 -71.8,7 -72.5,9',
+'Equador':'-78.8,1.5 -77,0.5 -75,-0.2 -75.3,-1.5 -77,-2.8 -78.5,-4.5 -80.3,-4.3 -80,-2.5 -80.8,-1 -80,0.5 -79,1',
+'Peru':'-75,-0.2 -72.5,-2.5 -70,-4.2 -72.5,-5 -73.8,-7.3 -72.5,-9.5 -70.5,-11 -68.5,-11 -69,-12.5 -69.5,-15 -69.2,-17.5 -70.5,-18.3 -71.5,-17.3 -76,-14 -79,-8 -81.2,-6 -80.3,-4.3 -78.5,-4.5 -77,-2.8 -75.3,-1.5',
+'Bolívia':'-68.5,-11 -65.3,-9.8 -62.5,-12.8 -60,-14.8 -60,-16.3 -57.8,-17.5 -58,-20 -62,-22 -64.5,-22 -67,-22.8 -68,-21 -68.5,-19 -69.2,-17.5 -69.5,-15 -69,-12.5',
+'Paraguai':'-58,-20 -57.8,-22.2 -55.5,-23.5 -54.3,-24 -54.5,-25.6 -54.5,-27.3 -56,-27.5 -58,-27 -58.5,-25 -62,-22',
+'Chile':'-70.5,-18.3 -69.2,-17.5 -68.5,-19 -68,-21 -67,-22.8 -68.3,-22.5 -68.7,-24.5 -68.3,-27 -69.5,-29 -70.3,-31 -70.2,-33.5 -71.2,-36 -71.8,-40 -71.7,-43 -72,-46 -72.5,-48.5 -72.8,-51 -72.2,-52 -69,-52.3 -68.4,-52.6 -68.6,-54.8 -71,-55 -74,-52.5 -75.5,-48 -74,-43 -73.5,-37 -71.6,-33 -71.5,-30 -70.8,-25 -70.2,-20',
+'Argentina':'-62,-22 -64.5,-22 -67,-22.8 -68.3,-22.5 -68.7,-24.5 -68.3,-27 -69.5,-29 -70.3,-31 -70.2,-33.5 -71.2,-36 -71.8,-40 -71.7,-43 -72,-46 -72.5,-48.5 -72.8,-51 -72.2,-52 -69,-52.3 -68.4,-52.6 -68.6,-54.8 -65.5,-54.8 -67.5,-50 -65.8,-45.5 -65,-41 -62.5,-39 -57.5,-38 -57,-36.3 -57.4,-35 -58.4,-34.2 -58.2,-33 -58,-31 -57.6,-30.2 -56,-28.3 -54.5,-27.3 -56,-27.5 -58,-27 -58.5,-25',
+'Uruguai':'-57.6,-30.2 -58,-31 -58.2,-33 -58.4,-34.2 -56,-34.9 -54,-34.7 -53.3,-33.7 -53.4,-32.5 -55.5,-30.5',
+'Outros':'-60,8.5 -60.7,5.2 -59.5,3.5 -57,2 -54,2.2 -52,4.5 -54,5.8 -57,6 -58.5,7.2'};
+const MC=['Brasil','Argentina','Chile','Peru','Colômbia','Venezuela','Bolívia','Paraguai','Uruguai','Equador'],MCEN={};let M;
+function mHud(){$('ms').textContent=M.score;$('mc').textContent='x'+M.combo;$('mc2').classList.toggle('hot',M.combo>=3);$('mp').textContent=M.hits+'/'+MC.length}
+function mStart(){let h='';for(const n in MD){const v=MD[n].split(' ').map(p=>{const q=p.split(',');return[(+q[0]+82)*4.7,(13-q[1])*5]});MCEN[n]=[v.reduce((a,p)=>a+p[0],0)/v.length,v.reduce((a,p)=>a+p[1],0)/v.length+2];h+=`<path class='cty${n=='Outros'?' oth':''}' data-n='${n}' d='M${v.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')}Z'/>`}
+ $('mw').innerHTML=`<svg viewBox='0 0 230 345'>${h}</svg>`;M={score:0,combo:0,best:0,hits:0,i:0,order:sh(MC.slice()),lock:false};mHud();mNext()}
+function mNext(){clr();if(M.i>=MC.length){pop($('mw'));burst($('mw'),44);$('mm').textContent='Mapa completo!';timers.push(setTimeout(()=>showRes('m','Mapa completo!',M.score,`${MC.length} países desenhados · melhor combo x${M.best}`,'Mapa',()=>go('mapa')),1600));return}
+ M.cur=M.order[M.i++];M.wrong=0;M.hint=false;M.lock=false;M.t0=performance.now();
+ $('mn').textContent=M.cur;$('mf').innerHTML=ge(F.findIndex(f=>f[0]==M.cur));$('mm').textContent='';$('mt').textContent='0s';
+ timers.push(setInterval(()=>{$('mt').textContent=((performance.now()-M.t0)/1000|0)+'s'},250))}
+$('mw').onclick=e=>{const p=e.target.closest('.cty');if(!p||M.lock||p.classList.contains('oth')||p.classList.contains('done'))return;const n=p.dataset.n;
+ if(n==M.cur){M.lock=true;clr();const el=(performance.now()-M.t0)/1000,base=el<=4?20:el<=9?10:5;M.combo++;M.hits++;M.best=Math.max(M.best,M.combo);
+  const bonus=M.combo>=3?Math.min(M.combo,8)*2:0;let pts=base+bonus;if(M.hint)pts=Math.max(1,Math.round(pts/2));M.score+=pts;mHud();
+  p.classList.remove('hint');p.classList.add('done');if(M.i%2)p.classList.add('alt');
+  const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',MCEN[n][0]);t.setAttribute('y',MCEN[n][1]);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','6.5');t.setAttribute('font-weight','900');t.setAttribute('fill','#0B1230');t.style.pointerEvents='none';t.textContent=n;p.parentNode.appendChild(t);
+  p.animate([{opacity:.2},{opacity:1}],{duration:450});burst(p,22);floater($('mw'),'+'+pts);
+  $('mm').textContent=(base==20?'Velocidade total! ':'Isso! ')+n+' desenhado'+(bonus?` · combo +${bonus}`:'');
+  timers.push(setTimeout(mNext,1000))}
+ else{M.wrong++;M.combo=0;mHud();p.classList.add('bad');setTimeout(()=>p.classList.remove('bad'),400);
+  let m=MC.includes(n)?`Esse é ${n}. Tente de novo!`:'Essa região não faz parte do jogo.';
+  if(M.wrong>=2&&!M.hint){M.hint=true;$('mw').querySelector(`[data-n='${M.cur}']`).classList.add('hint');m+=' Dica: o país certo está piscando (pontos pela metade).'}
+  $('mm').textContent=m}};
+
+/* DESENHO */
+const MV=n=>MD[n].split(' ').map(p=>{const q=p.split(',');return[(+q[0]+82)*4.7,(13-q[1])*5]});
+const dPath=n=>'M'+MV(n).map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+'Z',NS='http://www.w3.org/2000/svg';let D={};
+function dStart(){D={score:0,i:0,sum:0,order:sh(MC.slice()).slice(0,5),st:[]};$('ds').textContent=0;dNext()}
+function dNext(){if(D.i>=5){burst($('dw'),30);return showRes('d','Desenho concluído!',D.score,`5 países desenhados · média de ${Math.round(D.sum/5)}% de semelhança`,'Desenho',()=>go('draw'))}
+ D.cur=D.order[D.i++];D.st=[];D.done=false;D.hint=false;D.on=false;
+ $('dw').innerHTML=`<svg viewBox='0 0 230 345'>${Object.keys(MD).map(n=>`<path class='gd' d='${dPath(n)}'/>`).join('')}<g id='dg'></g></svg>`;
+ $('dn').textContent=D.cur;$('df').innerHTML=ge(F.findIndex(f=>f[0]==D.cur));$('dr').textContent=D.i+'/5';$('dm').textContent='Use o dedo para contornar o país no mapa.';$('dgo').textContent='Pronto'}
+function dPt(e){const s=$('dw').firstChild,p=s.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(s.getScreenCTM().inverse());return[q.x,q.y]}
+function dUp(){$('dg').lastChild.setAttribute('d','M'+D.st[D.st.length-1].map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L'))}
+$('dw').onpointerdown=e=>{if(D.done||!$('dg'))return;e.preventDefault();$('dw').setPointerCapture(e.pointerId);const p=dPt(e),el=document.createElementNS(NS,'path');el.setAttribute('class','stroke');$('dg').appendChild(el);D.st.push([p,p]);D.on=true;dUp()};
+$('dw').onpointermove=e=>{if(!D.on)return;D.st[D.st.length-1].push(dPt(e));dUp()};
+$('dw').onpointerup=$('dw').onpointercancel=()=>{D.on=false};
+function dSamp(poly,step,closed){const o=[];for(let i=0;i<poly.length-(closed?0:1);i++){const a=poly[i],b=poly[(i+1)%poly.length],n=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/step));for(let k=0;k<n;k++)o.push([a[0]+(b[0]-a[0])*k/n,a[1]+(b[1]-a[1])*k/n])}return o}
+function dFr(A,B,d){let c=0;for(const a of A)for(const b of B)if((a[0]-b[0])**2+(a[1]-b[1])**2<d*d){c++;break}return c/A.length}
+function dEval(){const dr=[].concat(...D.st.map(s=>dSamp(s,2,false)));if(dr.length<10){$('dm').textContent='Desenhe o contorno do país primeiro!';return}
+ const re=dSamp(MV(D.cur),2,true),cov=dFr(re,dr,8),pr=dFr(dr,re,8),f=cov+pr?2*cov*pr/(cov+pr):0;let pts=Math.round(f*100);D.sum+=f*100;if(D.hint)pts=Math.round(pts/2);D.score+=pts;$('ds').textContent=D.score;D.done=true;
+ const r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',dPath(D.cur));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:0},{opacity:1}],{duration:500});
+ if(f>.6)burst($('dw'),f>.8?40:22);pop($('dw'));$('dm').textContent=`${Math.round(f*100)}% de semelhança · +${pts} pontos. `+(f>.8?'Incrível!':f>.6?'Muito bom!':f>.35?'Boa tentativa!':'Continue treinando!');$('dgo').textContent=D.i>=5?'Ver resultado':'Próximo país'}
+$('dgo').onclick=()=>D.done?dNext():dEval();
+$('dcl').onclick=()=>{if(D.done)return;D.st=[];$('dg').innerHTML=''};
+$('dhi').onclick=()=>{if(D.done||D.hint)return;D.hint=true;const r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',dPath(D.cur));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:1},{opacity:1},{opacity:0}],{duration:1500}).onfinish=()=>r.remove();$('dm').textContent='Dica usada: pontos desta rodada pela metade.'};
+
+/* DESENHO MUNDO */
+const WD={'Argentina':MD['Argentina'],'Austrália':'114,-22 113.5,-26 115,-34 118,-35 123,-34 129,-31.5 135,-34.5 138,-35.5 140,-38 146,-39 150,-37.5 153,-31 153,-26 149,-20 146,-18.5 145.5,-14.5 143.5,-14 142.5,-10.7 141,-13 140,-17.5 136,-15.5 135.5,-12.5 131,-11.5 129,-15 126,-14 122,-17 120,-19.5 117,-20.5',
+'Brasil':MD['Brasil'],
+'Canadá':'-141,69.5 -128,70 -115,68 -95,72 -85,69 -82,63 -93,60 -94,58 -85,55 -80,52 -79,56 -77,62 -70,60 -64,60 -61,56 -57,52 -53,47 -60,46 -66,44.5 -67,47 -70,47 -75,45 -79,43.5 -83,46 -89,48 -95,49 -123,49 -125,50 -130,54 -133,58 -141,60',
+'China':'74,38.5 75,36 78,35 79,32.5 81,30.5 85,28 88,27.8 92,28 96,28.5 98.5,28 98,24.5 101,22 105,22.5 108,21.5 110,21 112,22.5 117,23.5 120,26 121.5,29 122,31.5 120,34 119,37 122,37 121,39.5 124,40 128,42 130.5,42.5 131,45 134,48 130,48.5 127,50 121,53 119,50 117,49.5 120,47 116,45 112,44.5 106,42 98,42.5 95,44.5 91,45 87,49 83,47 80,45 82,43 80,42 75,40',
+'Egito':'25,31.7 29,31 32,31.2 34.3,31.2 34.8,29.5 34,27.5 36,23.5 36.9,22 25,22 25,25 24.7,29',
+'Estados Unidos':'-123,48.5 -95,49 -89,48 -83,46 -82.5,42 -79,43.5 -75,45 -67,47 -67,44.5 -70,42 -74,40.5 -76,38 -76,35 -81,31 -80,27 -80.5,25.5 -82.5,27.5 -85,29.7 -89,30 -94,29.5 -97,27 -99,26 -101,29.5 -104,29 -106.5,31.8 -111,31.3 -114.7,32.7 -117,32.5 -120.5,34.5 -122.5,37.8 -124,40.5 -124.5,43 -124,46.5',
+'Índia':'68.5,23.5 71,24.5 74,24 75,28 76,31 79,32.5 78,35.5 81,30.5 85,28 88,27.8 89,26.5 92,27 96,28 94,24 92.5,22 91,23 89,22 87,21.5 85,19.5 82,17 80,15.5 80,13 79.5,10.5 77.5,8 76,10 74.5,13 73,17 72.7,21 70.5,21 69,22.5',
+'Japão':'130.5,31 132,34 135,35.5 137,37 139.5,40 140,42 141.5,45.5 144,43 141.5,41 141,38 140.5,35.5 138,34.7 135,33.5 132,32.5',
+'México':'-117,32.5 -114.7,32.7 -111,31.3 -106.5,31.8 -104,29 -101,29.5 -99,26 -97.2,25.5 -97.5,22 -96,19 -94.5,18 -91.5,18.5 -90.5,21 -87,21.5 -87.5,18 -88.5,16 -92,14.5 -94,16 -97,16 -101,17.5 -105.5,20 -105.5,23 -109,26 -112.5,29.5 -114.7,31.5',
+'Rússia':'28,69.5 33,69.5 41,67 44,68.5 54,68.5 60,69 67,69 73,72.5 80,73 100,77 113,74 130,71 150,71 160,69.5 170,70 180,68.5 180,65 178,64.5 170,60 163,59 162,57 156,51 156,57 160,61 155,59.5 143,59 137,54 140,53 142,47 134,43 131,43 130,48 135,48 127,50 121,53 117,50 108,50 98,51 88,49 80,51 70,55 61,54 55,51 50,51.5 47,48 49,46.5 47,43 40,43.5 37,45 38,47 40,47.5 38,49 35,52 32,53 31,56 28,56.5 27,60 30,60 28,63 31,67'};
+const WV=n=>WD[n].split(' ').map(p=>{const q=p.split(',');return[+q[0]+180,80-q[1]]}),wP=n=>'M'+WV(n).map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+'Z';
+function dStart(){D={score:0,i:0,sum:0,order:Object.keys(WD).sort((a,b)=>a.localeCompare(b,'pt')),st:[]};$('ds').textContent=0;dNext()}
+function dNext(){const N=D.order.length;if(D.i>=N){burst($('dw'),30);return showRes('d','Mapa-múndi completo!',D.score,`${N} países desenhados · média de ${Math.round(D.sum/N)}% de semelhança`,'Desenho',()=>go('draw'))}
+ D.cur=D.order[D.i++];D.st=[];D.done=false;D.hint=false;D.on=false;
+ let g='';for(let lo=-180;lo<=180;lo+=30)g+=`<line class='gl' x1='${lo+180}' x2='${lo+180}' y1='0' y2='140'/>`;for(let la=75;la>=-60;la-=15)g+=`<line class='gl${la==0?' eq':''}' x1='0' x2='360' y1='${80-la}' y2='${80-la}'/>`;
+ g+=`<text x='2' y='77.5' font-size='4.5' fill='#7F8FD0'>Equador</text><text x='182' y='6' font-size='4.5' fill='#7F8FD0'>Greenwich</text>`;
+ $('dw').innerHTML=`<svg viewBox='0 0 360 140'>${g}<g id='dg'></g></svg>`;
+ $('dn').textContent=D.cur;$('df').innerHTML=ge(F.findIndex(f=>f[0]==D.cur));$('dr').textContent=D.i+'/'+N;$('dm').textContent='Desenhe o país no lugar certo do mapa-múndi. Dica: gire o celular para desenhar maior.';$('dgo').textContent='Pronto'}
+function dSim(){const mk=()=>{const c=document.createElement('canvas');c.width=360;c.height=140;const x=c.getContext('2d');x.lineWidth=10;x.lineJoin=x.lineCap='round';x.fillStyle=x.strokeStyle='#000';return x},a=mk(),b=mk(),tr=(x,pts)=>{x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fill();x.stroke()};
+ tr(a,WV(D.cur));D.st.forEach(s=>tr(b,s));const A=a.getImageData(0,0,360,140).data,B=b.getImageData(0,0,360,140).data;let i=0,u=0;for(let k=3;k<A.length;k+=4){const x=A[k]>0,y=B[k]>0;if(x&&y)i++;if(x||y)u++}return u?i/u:0}
+function dEval(){if(D.st.reduce((a,s)=>a+s.length,0)<8){$('dm').textContent='Desenhe o contorno do país primeiro!';return}
+ const f=Math.min(1,dSim()*1.3);let pts=Math.round(f*100);D.sum+=f*100;if(D.hint)pts=Math.round(pts/2);D.score+=pts;$('ds').textContent=D.score;D.done=true;
+ const r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',wP(D.cur));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:0},{opacity:1}],{duration:500});
+ if(f>.6)burst($('dw'),f>.8?40:22);pop($('dw'));$('dm').textContent=`${Math.round(f*100)}% de semelhança · +${pts} pontos. `+(f>.8?'Incrível!':f>.6?'Muito bom!':f>.35?'Boa tentativa!':'Continue treinando!');$('dgo').textContent=D.i>=D.order.length?'Ver resultado':'Próximo país'}
+$('dhi').onclick=()=>{if(D.done||D.hint)return;D.hint=true;const r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',wP(D.cur));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:1},{opacity:1},{opacity:0}],{duration:1500}).onfinish=()=>r.remove();$('dm').textContent='Dica usada: pontos desta rodada pela metade.'};
+
+/* DESENHO LIVRE */
+function dBox(pts){let a=1e9,b=1e9,c=-1e9,d=-1e9;pts.forEach(p=>{a=Math.min(a,p[0]);b=Math.min(b,p[1]);c=Math.max(c,p[0]);d=Math.max(d,p[1])});return{x:(a+c)/2,y:(b+d)/2,m:Math.max(c-a,d-b)||1}}
+const dFit=(pts,f,t,k)=>'M'+pts.map(p=>((p[0]-f.x)*k+t.x).toFixed(1)+' '+((p[1]-f.y)*k+t.y).toFixed(1)).join('L')+'Z';
+const dMapSvg=()=>`<svg viewBox='0 0 360 140' style='display:block;width:100%;height:100%'><text x='5' y='10' font-size='7' font-weight='800' fill='#7F8FD0'>Meu mapa-múndi</text>${D.mine.map(d=>`<path class='mine' d='${d}'/>`).join('')}</svg>`;
+function dStart(){D={score:0,i:0,sum:0,mine:[],order:Object.keys(WD).sort((a,b)=>a.localeCompare(b,'pt')),st:[]};$('ds').textContent=0;dNext()}
+function dNext(){const N=D.order.length;if(D.i>=N){burst($('dw'),30);showRes('d','Mapa-múndi completo!',D.score,`${N} países desenhados · média de ${Math.round(D.sum/N)}% de semelhança`,'Desenho',()=>go('draw'));$('rmap').innerHTML=dMapSvg();$('rmap').style.display='block';return}
+ D.cur=D.order[D.i++];D.st=[];D.done=false;D.hint=false;D.on=false;
+ $('dw').innerHTML=`<svg width='100%' height='100%'><g id='dg'></g></svg>`;$('dmap').innerHTML=dMapSvg();
+ $('dn').textContent=D.cur;$('df').innerHTML=ge(F.findIndex(f=>f[0]==D.cur));$('dr').textContent=D.i+'/'+N;$('dm').textContent='Desenhe o formato do país no espaço livre. O lugar não importa, só a forma!';$('dgo').textContent='Pronto'}
+function dSim(bd,br){const mk=()=>{const c=document.createElement('canvas');c.width=c.height=120;const x=c.getContext('2d');x.lineWidth=7;x.lineJoin=x.lineCap='round';x.fillStyle=x.strokeStyle='#000';return x},a=mk(),b=mk(),tr=(x,pts,bx)=>{x.beginPath();pts.forEach((p,i)=>{const X=(p[0]-bx.x)/bx.m*100+60,Y=(p[1]-bx.y)/bx.m*100+60;i?x.lineTo(X,Y):x.moveTo(X,Y)});x.closePath();x.fill();x.stroke()};
+ tr(a,WV(D.cur),br);D.st.forEach(s=>tr(b,s,bd));const A=a.getImageData(0,0,120,120).data,B=b.getImageData(0,0,120,120).data;let i=0,u=0;for(let k=3;k<A.length;k+=4){const x=A[k]>0,y=B[k]>0;if(x&&y)i++;if(x||y)u++}return u?i/u:0}
+function dEval(){const all=[].concat(...D.st);if(all.length<8){$('dm').textContent='Desenhe o contorno do país primeiro!';return}
+ const R=WV(D.cur),bd=dBox(all),br=dBox(R),f=Math.min(1,dSim(bd,br)*1.25);let pts=Math.round(f*100);D.sum+=f*100;if(D.hint)pts=Math.round(pts/2);D.score+=pts;$('ds').textContent=D.score;D.done=true;
+ const r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',dFit(R,br,bd,bd.m/br.m));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:0},{opacity:1}],{duration:500});
+ D.st.forEach(s=>D.mine.push(dFit(s,bd,br,br.m/bd.m)));$('dmap').innerHTML=dMapSvg();$('dmap').animate([{transform:'scale(1.04)'},{transform:'none'}],{duration:400});
+ if(f>.6)burst($('dw'),f>.8?40:22);$('dm').textContent=`${Math.round(f*100)}% de semelhança · +${pts} pontos. `+(f>.8?'Incrível!':f>.6?'Muito bom!':f>.35?'Boa tentativa!':'Continue treinando!')+' Seu país foi para o mapa lá embaixo.';$('dgo').textContent=D.i>=D.order.length?'Ver resultado':'Próximo país'}
+$('dhi').onclick=()=>{if(D.done||D.hint)return;D.hint=true;const w=$('dw').clientWidth,h=$('dw').clientHeight,R=WV(D.cur),br=dBox(R),r=document.createElementNS(NS,'path');r.setAttribute('class','real');r.setAttribute('d',dFit(R,br,{x:w/2,y:h/2},.6*Math.min(w,h)/br.m));$('dg').insertBefore(r,$('dg').firstChild);r.animate([{opacity:1},{opacity:1},{opacity:0}],{duration:1500}).onfinish=()=>r.remove();$('dm').textContent='Dica usada: pontos desta rodada pela metade.'};
+
+/* DESENHO TELA CHEIA */
+function dNext(){const N=D.order.length;if(D.i>=N){burst($('dw'),30);showRes('d','Mapa-múndi completo!',D.score,`${N} países desenhados · média de ${Math.round(D.sum/N)}% de semelhança`,'Desenho',()=>go('draw'));$('rmap').innerHTML=dMapSvg();$('rmap').style.display='block';return}
+ D.cur=D.order[D.i++];D.st=[];D.done=false;D.hint=false;D.on=false;
+ $('dw').innerHTML=`<svg width='100%' height='100%'><g id='dg'></g></svg>`;
+ $('dn').textContent=D.cur;$('df').innerHTML=ge(F.findIndex(f=>f[0]==D.cur));$('dr').textContent=D.i+'/'+N;$('dm').textContent='Desenhe o formato do país em qualquer lugar da tela.';$('dgo').textContent='Pronto'}
+function dEval(){const all=[].concat(...D.st);if(all.length<8){$('dm').textContent='Desenhe o contorno do país primeiro!';return}
+ const R=WV(D.cur),bd=dBox(all),br=dBox(R),f=Math.min(1,dSim(bd,br)*1.25);let pts=Math.round(f*100);D.sum+=f*100;if(D.hint)pts=Math.round(pts/2);D.score+=pts;$('ds').textContent=D.score;D.done=true;
+ const W=$('dw').clientWidth,H=$('dw').clientHeight,S=Math.min(W/360,H/140)*.98,ox=(W-360*S)/2,oy=(H-140*S)/2,k=br.m*S/bd.m,tx=ox+br.x*S-bd.x*k,ty=oy+br.y*S-bd.y*k;
+ const g=document.createElementNS(NS,'g');g.setAttribute('transform',`translate(${ox} ${oy}) scale(${S})`);
+ g.innerHTML=`<rect width='360' height='140' rx='6' fill='none' stroke='#2E4290' stroke-width='.6' stroke-dasharray='3 3'/><text x='5' y='10' font-size='7' font-weight='800' fill='#7F8FD0'>Meu mapa-múndi</text>${D.mine.map(d=>`<path class='mine' d='${d}'/>`).join('')}<path class='real' d='${dFit(R,br,br,1)}'/>`;
+ g.animate([{opacity:0},{opacity:1}],{duration:400});$('dw').firstChild.insertBefore(g,$('dg'));
+ $('dg').style.transformOrigin='0 0';
+ $('dg').animate([{transform:'none'},{transform:`translate(${tx}px,${ty}px) scale(${k})`}],{duration:1100,delay:500,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'}).onfinish=()=>{$('dg').querySelectorAll('.stroke').forEach(p=>p.classList.add('fin'));if(f>.6)burst($('dw'),f>.8?40:22)};
+ D.st.forEach(s=>D.mine.push(dFit(s,bd,br,br.m/bd.m)));
+ $('dm').textContent=`${Math.round(f*100)}% de semelhança · +${pts} pontos. `+(f>.8?'Incrível!':f>.6?'Muito bom!':f>.35?'Boa tentativa!':'Continue treinando!');$('dgo').textContent=D.i>=D.order.length?'Ver resultado':'Próximo país'}
+
+/* RESULT */
+let R;
+function showRes(m,t,s,l,tag,again){R={m,s,tag,again};clr();go('res');$('rmap').style.display='none';$('rt').textContent=t;$('rs').textContent=s;$('rl').textContent=l;
+ try{$('nm').value=localStorage.getItem('mbn')||''}catch(e){}pop($('rs'));burst($('rs'),30)}
+$('rsave').onclick=()=>{const n=($('nm').value.trim()||'Jogador').slice(0,12);try{localStorage.setItem('mbn',n)}catch(e){}save(R.m,n,R.s,R.tag);tab=R.m;go('rank')};
+$('ragain').onclick=()=>R.again();
+
+/* ONLINE + AMIGOS (db compartilhado do artefato publicado) */
+let DB=null,ME='',PL={},RM={},DU={},OM='',FM='';
+const sdr=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const seedOrder=sd=>{const r=sdr(sd),a=[...F.keys()];for(let i=a.length-1;i>0;i--){const j=r()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a.slice(0,10)};
+const mine=()=>PL[ME]||{},ready=()=>DB&&ME&&PL[ME],isOn=p=>p&&Date.now()-(p.seen||0)<75000;
+const myName=()=>{try{return localStorage.getItem('mbn')||'Jogador'}catch(e){return'Jogador'}};
+const newCode=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let i=0;i<5;i++)c+=A[rnd(A.length)];return c};
+const upd=p=>DB.doc('players/'+ME).update(p);
+const fo=i=>(PL[i]&&PL[i].out)||[];
+async function oInit(){if(DB!==null)return;DB=false;
+ try{const cl=window.claude,u=cl&&await cl.use('user'),d=cl&&await cl.use('db');if(!u||!d)return rAll();
+  ME=await u.id();if(!ME)return rAll();DB=d;
+  const sub=(c,m)=>DB.collection(c).onSnapshot(s=>{const o={};s.docs.forEach(x=>o[x.id]=x.data());Object.keys(m).forEach(k=>delete m[k]);Object.assign(m,o);oSnap(c)},()=>{});
+  sub('players',PL);sub('rooms',RM);sub('duel',DU);
+  setTimeout(()=>{if(!PL[ME])DB.doc('players/'+ME).set({name:myName(),code:newCode(),out:[],seen:Date.now()})},1800);
+  setInterval(()=>{if(PL[ME])upd({seen:Date.now()}).catch(()=>{})},30000)}catch(e){DB=false}rAll()}
+const oOpp=()=>ONL.role=='host'?DU[ONL.opp]:RM[ONL.host];
+const oRef=()=>DB.doc((ONL.role=='host'?'rooms/':'duel/')+ME);
+function oSnap(c){
+ if(c=='players'&&PL[ME]&&!oSnap.s){oSnap.s=1;upd({seen:Date.now()}).catch(()=>{})}
+ const o=ONL;
+ if(o){
+  if(o.state=='wait'){
+   if(o.role=='host'){const g=Object.keys(DU).find(k=>DU[k].host==ME);if(g){o.opp=g;o.state='go';DB.doc('rooms/'+ME).update({status:'play'});setTimeout(oStart,1200)}}
+   else if(RM[o.host]&&RM[o.host].status=='play'){o.state='go';oStart()}
+   else if(c=='rooms'&&!RM[o.host]){oLeave();OM='A sala do amigo foi encerrada.'}}
+  if(o.state=='play'||o.state=='fin'){const p=oOpp();if(p&&o.state=='play')$('vs').textContent=`${p.name}: ${p.score||0} pts`;if(o.state=='fin')oCheck()}}
+ rAll()}
+function oStart(){const o=ONL;if(!o)return;o.order=seedOrder(o.role=='host'?o.seed:RM[o.host].seed);o.state='play';o.last='';OM='';go('quiz')}
+function oPush(){const k=Q.score+'/'+Q.round;if(ONL.last==k)return;ONL.last=k;oRef().update({score:Q.score,round:Q.round}).catch(()=>{})}
+function oEnd(){const o=ONL;o.state='fin';o.t=Date.now();clr();oRef().update({score:Q.score,round:10,done:true}).catch(()=>{});
+ $('msg').innerHTML='Fim! Aguardando seu amigo terminar…';$('opts').innerHTML='';$('hint').style.display='none';timers.push(setInterval(oCheck,1000));oCheck()}
+function oCheck(){const o=ONL;if(!o||o.state!='fin')return;const p=oOpp();if(!(p&&p.done)&&Date.now()-o.t<60000)return;
+ clr();const me=Q.score,op=p?p.score||0:0,nm=p?p.name:'Amigo';oLeave();
+ showRes('q',me>op?'Você venceu!':me<op?nm+' venceu!':'Empate!',me,`Você ${me} x ${op} ${nm}`,'Online',()=>go('onl'))}
+function oLeave(){const o=ONL;ONL=null;if(!o||!DB)return;const k=(o.role=='host'?'rooms/':'duel/')+ME;setTimeout(()=>{if(!ONL)DB.doc(k).delete().catch(()=>{})},o.state=='fin'?20000:0)}
+function oHost(){if(!ready())return;oLeave();OM='';ONL={role:'host',state:'wait',host:ME,seed:Math.random()*1e9|0};
+ DB.doc('rooms/'+ME).set({name:mine().name,seed:ONL.seed,status:'wait',score:0,done:false,ts:Date.now()});rAll()}
+function oJoin(h){if(!ready()||h==ME)return;const r=RM[h];if(!r||r.status!='wait'){OM='Esse amigo não tem um duelo aberto agora.';return rAll()}
+ oLeave();OM='';ONL={role:'guest',state:'wait',host:h};DB.doc('duel/'+ME).set({host:h,name:mine().name,score:0,done:false,ts:Date.now()});rAll()}
+const byCode=c=>Object.keys(PL).find(k=>PL[k].code==c.trim().toUpperCase());
+$('ohost').onclick=oHost;
+$('ojoin').onclick=()=>{const id=byCode($('ocode').value);if(!id||id==ME){OM=id==ME?'Esse é o seu código!':'Código não encontrado.';return rAll()}oJoin(id)};
+$('fadd').onclick=()=>{if(!ready()){FM='Ainda conectando…';return rAll()}const id=byCode($('fcode').value);
+ if(!id||id==ME){FM=id==ME?'Esse é o seu código!':'Código não encontrado.';return rAll()}
+ if((mine().out||[]).includes(id)){FM='Você já adicionou essa pessoa.';return rAll()}
+ upd({out:[...(mine().out||[]),id]});$('fcode').value='';FM='Pedido enviado!';rAll()};
+$('fnm').onchange=()=>{const n=$('fnm').value.trim().slice(0,12)||'Jogador';try{localStorage.setItem('mbn',n)}catch(e){}if(ready())upd({name:n})};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||!ready())return;const a=b.dataset.act,id=b.dataset.id,out=mine().out||[];
+ if(a=='acc')upd({out:[...out,id]});if(a=='rm')upd({out:out.filter(x=>x!=id)});if(a=='join')oJoin(id);if(a=='cancel'){oLeave();rAll()}});
+function rel(){const m=mine().out||[];return{fr:m.filter(i=>PL[i]&&fo(i).includes(ME)),inc:Object.keys(PL).filter(i=>i!=ME&&fo(i).includes(ME)&&!m.includes(i)),pen:m.filter(i=>PL[i]&&!fo(i).includes(ME))}}
+const dtp=p=>`<i class='dt${isOn(p)?' on':''}'></i>`;
+function rAll(){
+ const off=DB===false,wait=DB===null||(DB&&!PL[ME]),R=ready()?rel():{fr:[],inc:[],pen:[]};
+ // online
+ let s;if(off)s='Online indisponível aqui. Abra o jogo publicado, logado, e peça aos amigos para abrirem o mesmo link.';else if(wait)s='Conectando…';
+ else if(ONL&&ONL.state=='wait')s=ONL.role=='host'?`Duelo aberto! Passe este código ao amigo:<br><b>${mine().code}</b><br>Aguardando…<br><button class='sm g2' data-act='cancel' style='margin-top:8px'>Cancelar</button>`:`Entrou no duelo de ${esc((RM[ONL.host]||{}).name||'amigo')}. Aguardando começar…<br><button class='sm g2' data-act='cancel' style='margin-top:8px'>Sair</button>`;
+ else s=OM||'Crie um duelo e envie seu código, ou entre no de um amigo.';
+ $('ostat').innerHTML=s;$('ohost').style.display=ONL&&ONL.state=='wait'?'none':'';
+ $('olist').innerHTML=R.fr.length?R.fr.map(i=>{const p=PL[i],r=RM[i],op=r&&r.status=='wait';return `<li>${dtp(p)}${esc(p.name)}${op?`<button class='sm' data-act='join' data-id='${i}'>Entrar</button>`:`<small>${r?'jogando':isOn(p)?'online':'offline'}</small>`}</li>`}).join(''):`<li style='justify-content:center;color:var(--mu)'>Adicione amigos na aba Amigos.</li>`;
+ // amigos
+ $('fme').innerHTML=off?'Amigos indisponíveis aqui. Abra o jogo publicado, logado.':wait?'Conectando…':`Seu código de amigo<br><b>${mine().code}</b>`;
+ if(ready()&&document.activeElement!=$('fnm'))$('fnm').value=mine().name||myName();
+ $('fmsg').textContent=FM;
+ const L=(t,a,f)=>a.length?`<div class='hd'>${t}</div><ul class='fl'>${a.map(f).join('')}</ul>`:'';
+ $('flist').innerHTML=L('Pedidos de amizade',R.inc,i=>`<li>${dtp(PL[i])}${esc(PL[i].name)}<button class='sm' data-act='acc' data-id='${i}'>Aceitar</button></li>`)
+  +L('Amigos',R.fr,i=>`<li>${dtp(PL[i])}${esc(PL[i].name)}<small>${isOn(PL[i])?'online':'offline'}</small><button class='sm g2' data-act='rm' data-id='${i}' style='margin-left:8px'>Remover</button></li>`)
+  +L('Aguardando resposta',R.pen,i=>`<li>${dtp(PL[i])}${esc(PL[i].name)}<button class='sm g2' data-act='rm' data-id='${i}'>Cancelar</button></li>`)}
+</script>
+</body>
+</html>
